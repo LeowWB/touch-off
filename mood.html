@@ -9,22 +9,36 @@
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
     
+    // NOTE: style must be the third column.
     dataTable.addColumn({ type: 'string', id: 'Category' });
     dataTable.addColumn({ type: 'string', id: 'Value' });
+    dataTable.addColumn({ type: 'string', id: 'style', role: 'style'});
     dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-    dataTable.addRows([
-      [ 'Mood', 'Good', new Date(2016, 1, 1), new Date(2016, 4, 1) ],
-      [ 'Mood', 'Not good', new Date(2016, 4, 2), new Date(2017, 10, 14) ],
-      [ 'Mood', 'Good', new Date(2017, 10, 15), new Date(2018, 12, 31) ],
-      [ 'Mind', 'Clear', new Date(2016, 1, 1), new Date(2016, 7, 4)],
-      [ 'Mind', 'Confused', new Date(2016, 7, 5), new Date(2017, 9, 10)],
-      [ 'Mind', 'Clear', new Date(2017, 9, 11), new Date(2018, 12, 31)],
-      [ 'Health', 'Healthy', new Date(2016, 1, 1), new Date(2017, 10, 31)],
-      [ 'Health', 'Unwell', new Date(2017, 11, 1), new Date(2017, 12, 31)],
-      [ 'Health', 'Healthy', new Date(2018, 1, 1), new Date(2018, 12, 31)]
-    ]);
+    
+    const GREEN = '#009900';
+    const RED = '#990000';
 
+    let rows = [
+      [ 'Mood', 'Good', null, new Date(2016, 1, 1), new Date(2016, 4, 1) ],
+      [ 'Mood', 'Not good', null, new Date(2016, 4, 2), new Date(2017, 10, 14) ],
+      [ 'Mood', 'Good', null, new Date(2017, 10, 15), new Date(2018, 12, 31) ],
+      [ 'Mind', 'Clear', null, new Date(2016, 1, 1), new Date(2016, 7, 4)],
+      [ 'Mind', 'Confused', null, new Date(2016, 7, 5), new Date(2017, 9, 10)],
+      [ 'Mind', 'Clear', null, new Date(2017, 9, 11), new Date(2018, 12, 31)],
+      [ 'Health', 'Healthy', null, new Date(2016, 1, 1), new Date(2017, 10, 31)],
+      [ 'Health', 'Unwell', null, new Date(2017, 11, 1), new Date(2017, 12, 31)],
+      [ 'Health', 'Healthy', null, new Date(2018, 1, 1), new Date(2018, 12, 31)]
+    ];
+
+    rows.forEach(bar => {
+        if (bar[1] == "Not good" || bar[1] == "Confused" || bar[1] == "Unwell")
+            bar[2] = RED;
+        else
+            bar[2] = GREEN;
+    });
+
+    dataTable.addRows(rows);
     chart.draw(dataTable);
   }
 </script>
