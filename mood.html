@@ -25,16 +25,22 @@
     rows.forEach(bar => {
         if (bar[1] < 0.5) {
             bar[2] = GREEN;
-            bar[1] = bar[0] == "Mood" ? "Good" : bar[0] == "Mind" ? "Clear" : "Healthy";
+            bar[1] = label(bar[0], true);
         }
         else {
             bar[2] = RED;
-            bar[1] = bar[0] == "Mood" ? "Not good" : bar[0] == "Mind" ? "Confused" : "Unwell";
+            bar[1] = label(bar[0], false);
         }
     });
 
     dataTable.addRows(rows);
     chart.draw(dataTable);
+  }
+
+  function label(cat, good) {
+    return "";
+    // if (good) return cat == "Mood" ? "Good" : cat == "Mind" ? "Clear" : "Healthy";
+    // else return cat == "Mood" ? "Not good" : cat == "Mind" ? "Confused" : "Unwell";
   }
 
   function generateRows() {
