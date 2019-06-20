@@ -3,6 +3,7 @@
 <script type="text/javascript">
   google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
+
   function drawChart() {
 
     var container = document.getElementById('mood');
@@ -19,29 +20,41 @@
     const GREEN = '#009900';
     const RED = '#990000';
 
-    let rows = [
-      [ 'Mood', 'Good', null, new Date(2016, 0, 1), null ],
-      [ 'Mood', 'Not good', null, new Date(2016, 3, 2), null ],
-      [ 'Mood', 'Good', null, new Date(2017, 9, 15), null ],
-      [ 'Mind', 'Clear', null, new Date(2016, 0, 1), null ],
-      [ 'Mind', 'Confused', null, new Date(2016, 6, 5), null ],
-      [ 'Mind', 'Clear', null, new Date(2017, 8, 11), null ],
-      [ 'Health', 'Healthy', null, new Date(2016, 0, 1), null ],
-      [ 'Health', 'Unwell', null, new Date(2017, 10, 1), null ],
-      [ 'Health', 'Healthy', null, new Date(2018, 11, 31), null ]
-    ];
+    let rows = generateRows();
 
     rows.forEach(bar => {
-        if (bar[1] == "Not good" || bar[1] == "Confused" || bar[1] == "Unwell")
-            bar[2] = RED;
-        else
+        if (bar[1] < 0.5) {
             bar[2] = GREEN;
-
-        bar[4] = bar[3];
+            bar[1] = bar[0] == "Mood" ? "Good" : bar[0] == "Mind" ? "Clear" : "Healthy";
+        }
+        else {
+            bar[2] = RED;
+            bar[1] = bar[0] == "Mood" ? "Not good" : bar[0] == "Mind" ? "Confused" : "Unwell";
+        }
     });
 
     dataTable.addRows(rows);
     chart.draw(dataTable);
+  }
+
+  function generateRows() {
+    
+    const START = (new Date(2016, 0, 1)).getTime();
+    const END = (new Date(2018, 11, 31)).getTime();
+
+    let getDate = () => new Date(START + (Math.random() * (END - START)));
+    let rv = [];
+
+    for (let i = 0; i < 10; i++) {
+
+      let currentDate = getDate();
+
+      rv.push(['Mood', Math.random(), null, currentDate, currentDate]);
+      rv.push(['Mind', Math.random(), null, currentDate, currentDate]);
+      rv.push(['Health', Math.random(), null, currentDate, currentDate]);
+    }
+
+    return rv;
   }
 </script>
 
