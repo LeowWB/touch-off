@@ -2,10 +2,13 @@
 
 <script type="text/javascript">
   
-  const START = (new Date(2017, 0, 1)).getTime();
-  const END = (new Date(2017, 11, 31)).getTime();
+  const STARTDATE = new Date(2017, 0, 1);
+  const ENDDATE = new Date(2017, 11, 31);
+  const START = STARTDATE.getTime();
+  const END = ENDDATE.getTime();
   const GREEN = '#009900';
   const RED = '#990000';
+  const BLACK = '#000000';
   const DATAROWS = 24;
 
   google.charts.load("current", {packages:["timeline"]});
@@ -36,6 +39,13 @@
             bar[1] = label(bar[0], false);
         }
     });
+
+    rows.push(['Mood', "", BLACK, STARTDATE, STARTDATE]);
+    rows.push(['Mind', "", BLACK, STARTDATE, STARTDATE]);
+    rows.push(['Health', "", BLACK, STARTDATE, STARTDATE]);
+    rows.push(['Mind', "", BLACK, ENDDATE, ENDDATE]);
+    rows.push(['Mood', "", BLACK, ENDDATE, ENDDATE]);
+    rows.push(['Health', "", BLACK, ENDDATE, ENDDATE]);
 
     dataTable.addRows(rows);
     chart.draw(dataTable);
