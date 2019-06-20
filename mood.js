@@ -29,8 +29,8 @@ function drawChart() {
     rows.push(['Mood', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
     rows.push(['Mind', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
     rows.push(['Health', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
-    rows.push(['Mind', "", BLACK, "Current date", END_DATE, END_DATE]);
     rows.push(['Mood', "", BLACK, "Current date", END_DATE, END_DATE]);
+    rows.push(['Mind', "", BLACK, "Current date", END_DATE, END_DATE]);
     rows.push(['Health', "", BLACK, "Current date", END_DATE, END_DATE]);
 
     dataTable.addRows(rows);
@@ -74,6 +74,13 @@ function generateRows() {
             bar[3] = tooltip(bar[0], false, bar[4]);
         }
     });
+
+    rv.sort((x, y) => 
+        x[0] > y[0] 
+            ? 1 
+            : x[0] < y[0] 
+                ? -1 
+                : x[4].getTime() - y[4].getTime());
 
     return rv;
 }
