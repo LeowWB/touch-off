@@ -1,6 +1,13 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
+  
+  const START = (new Date(2016, 0, 1)).getTime();
+  const END = (new Date(2018, 11, 31)).getTime();
+  const GREEN = '#009900';
+  const RED = '#990000';
+  const DATAROWS = 10;
+
   google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
 
@@ -16,9 +23,6 @@
     dataTable.addColumn({ type: 'string', id: 'style', role: 'style'});
     dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-    
-    const GREEN = '#009900';
-    const RED = '#990000';
 
     let rows = generateRows();
 
@@ -44,14 +48,11 @@
   }
 
   function generateRows() {
-    
-    const START = (new Date(2016, 0, 1)).getTime();
-    const END = (new Date(2018, 11, 31)).getTime();
 
     let getDate = () => new Date(START + (Math.random() * (END - START)));
     let rv = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < DATAROWS; i++) {
 
       let currentDate = getDate();
 
