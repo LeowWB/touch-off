@@ -5,7 +5,7 @@ const END = END_DATE.getTime();
 const GREEN = '#009900';
 const RED = '#990000';
 const BLACK = '#000000';
-const DATA_ROWS = 24;
+const CHECKCALL_COUNT = 24;
 
 google.charts.load("current", { packages: ["timeline"] });
 google.charts.setOnLoadCallback(drawChart);
@@ -53,7 +53,7 @@ function generateRows() {
     let getDate = () => new Date(START + (Math.random() * (END - START)));
     let rv = [];
 
-    for (let i = 0; i < DATA_ROWS; i++) {
+    for (let i = 0; i < CHECKCALL_COUNT; i++) {
 
         let currentDate = getDate();
 
