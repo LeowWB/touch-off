@@ -18,6 +18,17 @@ function drawChart() {
     var chart = new google.visualization.Timeline(container);
     var dataTable = new google.visualization.DataTable();
 
+    addColumns(dataTable);
+
+    let rows = generateRows();
+    addAlertFathers(rows);
+    addEdgeValues(rows);
+
+    dataTable.addRows(rows);
+    chart.draw(dataTable);
+}
+
+function addColumns(dataTable) {
     // NOTE: style must be the third column.
     dataTable.addColumn({ type: 'string', id: 'Category' });
     dataTable.addColumn({ type: 'string', id: 'Value' });
@@ -25,20 +36,6 @@ function drawChart() {
     dataTable.addColumn({ type: 'string', id: 'tooltip', role: 'tooltip' })
     dataTable.addColumn({ type: 'date', id: 'Start' });
     dataTable.addColumn({ type: 'date', id: 'End' });
-
-    let rows = generateRows();
-
-    addAlertFathers(rows);
-
-    rows.push(['Mood', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
-    rows.push(['Mind', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
-    rows.push(['Health', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
-    rows.push(['Mood', "", BLACK, "Current date", END_DATE, END_DATE]);
-    rows.push(['Mind', "", BLACK, "Current date", END_DATE, END_DATE]);
-    rows.push(['Health', "", BLACK, "Current date", END_DATE, END_DATE]);
-
-    dataTable.addRows(rows);
-    chart.draw(dataTable);
 }
 
 function addAlertFathers(rows) {
@@ -83,11 +80,16 @@ function addAlertFathers(rows) {
     rows.sort(rowSorter);
 }
 
-function generateRows() {
+function addEdgeValues(rows) {
+    rows.push(['Mood', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
+    rows.push(['Mind', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
+    rows.push(['Health', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
+    rows.push(['Mood', "", BLACK, "Current date", END_DATE, END_DATE]);
+    rows.push(['Mind', "", BLACK, "Current date", END_DATE, END_DATE]);
+    rows.push(['Health', "", BLACK, "Current date", END_DATE, END_DATE]);
+}
 
-    function label(cat, good) {
-        return "";
-    }
+function generateRows() {
 
     function tooltip(cat, good, date) {
         let stringDate = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -111,14 +113,14 @@ function generateRows() {
     rv.forEach(bar => {
         if (bar[1] < 0.5) {
             bar[2] = GREEN;
-            bar[1] = label(bar[0], true);
             bar[3] = tooltip(bar[0], true, bar[4]);
         }
         else {
             bar[2] = RED;
-            bar[1] = label(bar[0], false);
             bar[3] = tooltip(bar[0], false, bar[4]);
         }
+
+        bar[1] = "";
     });
 
     rv.sort(rowSorter);
