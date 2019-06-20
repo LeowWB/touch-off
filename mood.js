@@ -6,6 +6,7 @@ const GREEN = '#009900';
 const RED = '#990000';
 const BLACK = '#000000';
 const CHECKCALL_COUNT = 24;
+const ALERT_THRESHOLD = 3;
 
 google.charts.load("current", { packages: ["timeline"] });
 google.charts.setOnLoadCallback(drawChart);
@@ -26,6 +27,8 @@ function drawChart() {
 
     let rows = generateRows();
 
+    addAlertFathers(rows);
+
     rows.push(['Mood', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
     rows.push(['Mind', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
     rows.push(['Health', "", BLACK, "Befriendee was registered", START_DATE, START_DATE]);
@@ -35,6 +38,30 @@ function drawChart() {
 
     dataTable.addRows(rows);
     chart.draw(dataTable);
+}
+
+function addAlertFathers(rows) {
+    
+    let consecCount = 0;
+    let consecFirst = 0;
+    
+    for (let i = 0; i < CHECKCALL_COUNT * 3 - 1; i++) {
+        if (rows[i][0] == rows[i+1][0] && rows[i][2] == rows[i+1][2] && rows[i][2] == RED) {
+            consecCount++;
+        }
+        else {
+
+            if (consecCount >= ALERT_THRESHOLD) {
+                let alertRow = [rows[i][0] + " Alert", "a", RED, "alert", rows[consecFirst][4], rows[i][5]];
+                rows.push(alertRow);
+            }
+
+            consecCount = 1;
+            consecFirst = i+1;
+        }
+    }
+
+    rows.sort(rowSorter);
 }
 
 function generateRows() {
@@ -75,12 +102,16 @@ function generateRows() {
         }
     });
 
-    rv.sort((x, y) => 
-        x[0] > y[0] 
+    rv.sort(rowSorter);
+    
+    return rv;
+}
+
+function rowSorter(x, y) {
+
+    return x[0] > y[0] 
             ? 1 
             : x[0] < y[0] 
                 ? -1 
-                : x[4].getTime() - y[4].getTime());
-
-    return rv;
+                : x[4].getTime() - y[4].getTime();
 }
