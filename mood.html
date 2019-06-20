@@ -2,14 +2,14 @@
 
 <script type="text/javascript">
   
-  const STARTDATE = new Date(2017, 0, 1);
-  const ENDDATE = new Date(2017, 11, 31);
-  const START = STARTDATE.getTime();
-  const END = ENDDATE.getTime();
+  const START_DATE = new Date(2017, 0, 1);
+  const END_DATE = new Date(2017, 11, 31);
+  const START = START_DATE.getTime();
+  const END = END_DATE.getTime();
   const GREEN = '#009900';
   const RED = '#990000';
   const BLACK = '#000000';
-  const DATAROWS = 24;
+  const DATA_ROWS = 24;
 
   google.charts.load("current", {packages:["timeline"]});
   google.charts.setOnLoadCallback(drawChart);
@@ -40,12 +40,12 @@
         }
     });
 
-    rows.push(['Mood', "", BLACK, STARTDATE, STARTDATE]);
-    rows.push(['Mind', "", BLACK, STARTDATE, STARTDATE]);
-    rows.push(['Health', "", BLACK, STARTDATE, STARTDATE]);
-    rows.push(['Mind', "", BLACK, ENDDATE, ENDDATE]);
-    rows.push(['Mood', "", BLACK, ENDDATE, ENDDATE]);
-    rows.push(['Health', "", BLACK, ENDDATE, ENDDATE]);
+    rows.push(['Mood', "", BLACK, START_DATE, START_DATE]);
+    rows.push(['Mind', "", BLACK, START_DATE, START_DATE]);
+    rows.push(['Health', "", BLACK, START_DATE, START_DATE]);
+    rows.push(['Mind', "", BLACK, END_DATE, END_DATE]);
+    rows.push(['Mood', "", BLACK, END_DATE, END_DATE]);
+    rows.push(['Health', "", BLACK, END_DATE, END_DATE]);
 
     dataTable.addRows(rows);
     chart.draw(dataTable);
@@ -62,7 +62,7 @@
     let getDate = () => new Date(START + (Math.random() * (END - START)));
     let rv = [];
 
-    for (let i = 0; i < DATAROWS; i++) {
+    for (let i = 0; i < DATA_ROWS; i++) {
 
       let currentDate = getDate();
 
