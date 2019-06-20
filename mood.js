@@ -3,7 +3,8 @@ const END_DATE = new Date(2017, 11, 31);
 const START = START_DATE.getTime();
 const END = END_DATE.getTime();
 const GREEN = '#009900';
-const RED = '#990000';
+const RED = '#bb0000';
+const ALERT_RED = '#770000';
 const BLACK = '#000000';
 const CHECKCALL_COUNT = 24;
 const ALERT_THRESHOLD = 3;
@@ -41,6 +42,23 @@ function drawChart() {
 }
 
 function addAlertFathers(rows) {
+
+    function generateAlertCause(type) {
+
+        function healthCause() {
+            let bodyParts = ["Head", "Shoulder", "Knee", "Toe", "Liver", "Heart", "Stomach", "Solar plexus", "Finger", "Brain", "Family jewels"];
+            let injuries = ["injured", "broken", "amputated", "operation", "failure", "disloc8ed"];
+
+            return [bodyParts[Math.floor(Math.random() * bodyParts.length)] + " " + injuries[Math.floor(Math.random() * injuries.length)]]
+        }
+
+        let moodCauses = ["Depression", "Just sad lor", "Only got A for CS2040", "Called back for reservist", "Lost job", "Was evicted"];
+        let mindCauses = ["Intoxicated", "PTSD from field camp", "Lost in life", "Playing mindsweeper", "Midlife crisis", "Became president of USA"];
+        
+        let actualCauses = type == "Mood" ? moodCauses : type == "Mind" ? mindCauses : type == "Health" ? healthCause() : ["Abducted"];
+
+        return actualCauses[Math.floor(Math.random() * actualCauses.length)];
+    }
     
     let consecCount = 0;
     let consecFirst = 0;
@@ -52,7 +70,8 @@ function addAlertFathers(rows) {
         else {
 
             if (consecCount >= ALERT_THRESHOLD) {
-                let alertRow = [rows[i][0] + " Alert", "a", RED, "alert", rows[consecFirst][4], rows[i][5]];
+                let cause = generateAlertCause(rows[i][0]);
+                let alertRow = [rows[i][0] + " Alert", "", ALERT_RED, cause, rows[consecFirst][4], rows[i][5]];
                 rows.push(alertRow);
             }
 
